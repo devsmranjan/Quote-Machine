@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>Quote Machine by Smruti Ranjan Rana</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Vollkorn+SC" rel="stylesheet">
+
+    <style>
+        .container {
+            margin-top: 100px;
+            font-family: 'Raleway', sans-serif;
+            
+            
+        }
+
+        .card {
+            box-shadow: 1px 1px 5px #888888;
+        }
+
+        .title {
+            padding: 15px 0 0 0;
+        }
+
+        .fa {
+            margin-left: 2px;
+            font-size: 20px;
+            
+        }
+
+        .new_quote_btn {
+            margin-top: 30px;
+            border: 0;
+            width: 200px;
+        }
+
+        .social {
+
+            border: 0;
+            width: 50px;
+            margin-right: 2px;
+            padding: 5px 0 5px 0;
+        }
+    </style>
+  </head>
+  <body>
+      <div class="container text-center">
+      <div class="card " >
+        <div class="card-header text-center" style="background-color: white;">
+            <h3 style="font-family: 'Vollkorn SC', serif;" class="title">Quote Machine</h3>
+            <hr>
+            <a href="" data-action="share/whatsapp/share" class="btn btn-primary whatsapp_btn social">
+                <i class="fa fa-whatsapp text-right"></i>
+            </a>
+
+
+            <a href="#" class="btn btn-primary twitter_btn social">
+                <i class="fa fa-twitter"></i>
+            </a>
+                
+        </div>
+        <div class="card-body">
+            <blockquote class="blockquote mb-0">
+            <p class="text-center quote-area" id="quote-area"></p>
+            
+            <footer class="blockquote-footer text-center quote-author"></footer>
+            </blockquote>
+
+            
+            
+            <a href="#" class="btn btn-primary new_quote_btn">New Quote</a>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" ></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" ></script>
+
+    <script>
+        $(document).ready(function () {
+            var randomNumber;
+            var randomColor;
+            var colors = ['#16a085', '#27ae60', '#2c3e50', '#f39c12', '#e74c3c', '#9b59b6', '#FB6964', '#342224', "#472E32", "#BDBB99", "#77B1A9", "#73A857"];
+
+            function myJson() {
+                randomColor = Math.floor((Math.random() * colors.length) + 1);
+                $("body").css("background-color", colors[randomColor]);
+                $(".new_quote_btn").css("background-color", colors[randomColor]);
+                $(".quote-area").css("color", colors[randomColor]);
+                $(".social").css("background-color", colors[randomColor]);
+
+                $.getJSON("/quotes.json", function (json) {
+                    randomNumber = Math.floor((Math.random() * json.length) + 1);
+   
+                    $(".quote-area").html(json[randomNumber].quoteText);
+                    $(".quote-author").html(json[randomNumber].quoteAuthor);
+
+
+                     $(".twitter_btn").click(function () {
+                        window.open('https://twitter.com/intent/tweet?hashtags=quotes&related=freecodecamp&text=' + encodeURIComponent('"' + json[randomNumber].quoteText + '"  - ' + json[randomNumber].quoteAuthor));
+                    });
+
+                    $(".whatsapp_btn").attr("href", "whatsapp://send?text="+ json[randomNumber].quoteText+ "\n  -" + json[randomNumber].quoteAuthor);
+
+
+                });
+            }
+            
+            $(".new_quote_btn").on("click", function () {
+                myJson();
+            });
+
+           
+
+            myJson();
+        });
+    </script>
+  </body>
+</html>
